@@ -14,8 +14,15 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
+		char[] tempChar = new char[string.length()];
+		int t = 0;
 		
-		return "";
+		for (int i=string.length()-1;i>=0;i--) {
+			tempChar[i] = string.charAt(t);
+			t++;
+		}
+		String revString = String.valueOf(tempChar);
+		return revString;
 	}
 
 	/**
@@ -27,8 +34,20 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		//split phrase
+		String[] tempPhrase = phrase.split(" ");
+		
+		//take first letter of each word
+		char[] tempLetter = new char[tempPhrase.length];
+		for (int i = 0; i < tempPhrase.length; i++) {
+			tempLetter[i] = tempPhrase[i].charAt(0);	
+		}
+		//make string from each letter
+		String acro = String.valueOf(tempLetter);
+		
+		return acro;
+	
+//		return "";
 	}
 
 	/**
@@ -41,21 +60,27 @@ public class EvaluationService {
 	 *
 	 */
 	static class Triangle {
+		
+		
+////////////////FIELDS		
 		private double sideOne;
 		private double sideTwo;
 		private double sideThree;
-
+		
+		
+////////////////CONSTRUCTORS
 		public Triangle() {
-			super();
+			
 		}
 
 		public Triangle(double sideOne, double sideTwo, double sideThree) {
-			this();
 			this.sideOne = sideOne;
 			this.sideTwo = sideTwo;
 			this.sideThree = sideThree;
 		}
-
+		
+		
+///////////////GETTERS & SETTERS
 		public double getSideOne() {
 			return sideOne;
 		}
@@ -79,20 +104,30 @@ public class EvaluationService {
 		public void setSideThree(double sideThree) {
 			this.sideThree = sideThree;
 		}
-
+		
+		
+////////////////METHODS
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			if (sideOne == sideTwo && sideOne == sideThree ) {
+				return true;
+			}else {
 			return false;
+			}
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+			if (sideOne == sideTwo || sideTwo == sideThree || sideOne == sideThree) {
+				return true;
+			}else {
 			return false;
+			}
 		}
-
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+			if (sideOne != sideTwo && sideOne!=sideThree && sideTwo != sideThree) {
+				return true;
+			}else {
 			return false;
+			}
 		}
 
 	}
@@ -113,8 +148,54 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		Character[] One =  {'A','E','I','O','U','L','N','R','S','T'};
+		char[] Two = {'D','G'};
+		char[] Three = {'B','C','M','P'};
+		char[] Four = {'F','H','V','W','Y'};
+		char[] Five = {'K'};
+		char[] Eight = {'J','X'};
+		char[] Ten = {'Q','Z'};
+		
+		String tempString = string.toUpperCase();
+		int score = 0;
+		for (int i =0;i<tempString.length();i++) {
+			for (int j =0;j<One.length;j++) {
+				if(tempString.charAt(i)==One[j]){
+				score +=1;
+				}
+			}
+			for (int j =0;j<Two.length;j++) {
+				if(tempString.charAt(i)==Two[j]){
+				score +=2;
+				}
+			}
+			for (int j =0;j<Three.length;j++) {
+				if(tempString.charAt(i)==Three[j]){
+				score +=3;
+				}
+			}
+			for (int j =0;j<Four.length;j++) {
+				if(tempString.charAt(i)==Four[j]){
+				score +=4;
+				}
+			}
+			for (int j =0;j<Five.length;j++) {
+				if(tempString.charAt(i)==Five[j]){
+				score +=5;
+				}
+			}
+			for (int j =0;j<Eight.length;j++) {
+				if(tempString.charAt(i)==Eight[j]){
+				score +=8;
+				}
+			}
+			for (int j =0;j<Ten.length;j++) {
+				if(tempString.charAt(i)==Ten[j]){
+				score +=10;
+				}
+			}
+		}
+		return score;
 	}
 
 	/**
