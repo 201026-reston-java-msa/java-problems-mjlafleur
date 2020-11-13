@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,10 @@ public class EvaluationService {
 			t++;
 		}
 		String revString = String.valueOf(tempChar);
+		
 		return revString;
+		
+		
 	}
 
 	/**
@@ -147,55 +151,79 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
+	//Use HashMap
 	public int getScrabbleScore(String string) {
-		Character[] One =  {'A','E','I','O','U','L','N','R','S','T'};
-		char[] Two = {'D','G'};
-		char[] Three = {'B','C','M','P'};
-		char[] Four = {'F','H','V','W','Y'};
-		char[] Five = {'K'};
-		char[] Eight = {'J','X'};
-		char[] Ten = {'Q','Z'};
 		
-		String tempString = string.toUpperCase();
+		//ReplaceAll "([aeioulnrst],"")" regex. is this BigO 1?
+
 		int score = 0;
-		for (int i =0;i<tempString.length();i++) {
-			for (int j =0;j<One.length;j++) {
-				if(tempString.charAt(i)==One[j]){
-				score +=1;
-				}
+		if (string != null) {
+			String tempString = string.toUpperCase();
+		HashMap<Character,Integer> letters = new HashMap<>(); 
+		letters.put('A',1); letters.put('E',1); letters.put('I',1); letters.put('O',1); letters.put('U',1);
+		letters.put('L',1); letters.put('N',1); letters.put('R',1); letters.put('S',1); letters.put('T',1);
+		letters.put('D',2); letters.put('G',2);
+		letters.put('B',3); letters.put('C',3); letters.put('M',3); letters.put('P',3);
+		letters.put('F',4); letters.put('H',4); letters.put('V',4); letters.put('W',4); letters.put('Y',4);
+		letters.put('K',5);
+		letters.put('J',8); letters.put('X',8);
+		letters.put('Q',10); letters.put('Z',10);
+		
+			for (int i = 0; i<tempString.length();i++) {
+					int value= letters.get(tempString.charAt(i));
+						score = score + value;
+					}
 			}
-			for (int j =0;j<Two.length;j++) {
-				if(tempString.charAt(i)==Two[j]){
-				score +=2;
-				}
-			}
-			for (int j =0;j<Three.length;j++) {
-				if(tempString.charAt(i)==Three[j]){
-				score +=3;
-				}
-			}
-			for (int j =0;j<Four.length;j++) {
-				if(tempString.charAt(i)==Four[j]){
-				score +=4;
-				}
-			}
-			for (int j =0;j<Five.length;j++) {
-				if(tempString.charAt(i)==Five[j]){
-				score +=5;
-				}
-			}
-			for (int j =0;j<Eight.length;j++) {
-				if(tempString.charAt(i)==Eight[j]){
-				score +=8;
-				}
-			}
-			for (int j =0;j<Ten.length;j++) {
-				if(tempString.charAt(i)==Ten[j]){
-				score +=10;
-				}
-			}
-		}
 		return score;
+		
+//		char[] One =  {'A','E','I','O','U','L','N','R','S','T'};
+//		char[] Two = {'D','G'};
+//		char[] Three = {'B','C','M','P'};
+//		char[] Four = {'F','H','V','W','Y'};
+//		char[] Five = {'K'};
+//		char[] Eight = {'J','X'};
+//		char[] Ten = {'Q','Z'};
+//		
+//		String tempString = string.toUpperCase();
+//		int score = 0;
+//		for (int i =0;i<tempString.length();i++) {
+//			for (int j =0;j<One.length;j++) {
+//				if(tempString.charAt(i)==One[j]){
+//				score +=1;
+//				}
+//			}
+//			for (int j =0;j<Two.length;j++) {
+//				if(tempString.charAt(i)==Two[j]){
+//				score +=2;
+//				}
+//			}
+//			for (int j =0;j<Three.length;j++) {
+//				if(tempString.charAt(i)==Three[j]){
+//				score +=3;
+//				}
+//			}
+//			for (int j =0;j<Four.length;j++) {
+//				if(tempString.charAt(i)==Four[j]){
+//				score +=4;
+//				}
+//			}
+//			for (int j =0;j<Five.length;j++) {
+//				if(tempString.charAt(i)==Five[j]){
+//				score +=5;
+//				}
+//			}
+//			for (int j =0;j<Eight.length;j++) {
+//				if(tempString.charAt(i)==Eight[j]){
+//				score +=8;
+//				}
+//			}
+//			for (int j =0;j<Ten.length;j++) {
+//				if(tempString.charAt(i)==Ten[j]){
+//				score +=10;
+//				}
+//			}
+//		}
+//		return score;
 	}
 
 	/**
@@ -229,9 +257,44 @@ public class EvaluationService {
 	 * Note: As this exercise only deals with telephone numbers used in
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
-	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public String cleanPhoneNumber(String pNum) {
+		//assuming no letters.
+		//clear out String to just numbers
+		String tempPNum = pNum.replaceAll("[ (),.-]","");
+		char[] letterCheck = tempPNum.toCharArray();
+		//changed number to a char array and checked if the Unicode value? is between 0 or 9...
+		//this is specific to this problem. i hate it.
+		for (int i = 0; i<letterCheck.length;i++) {
+			
+			if (letterCheck[i]<  '0'  || letterCheck[i]>'9') {
+				throw new IllegalArgumentException("Character other than numbers");
+			}
+		}
+		
+		
+		//check number for length and format
+		
+			if (tempPNum.length() >11 || tempPNum.length() < 10) {
+				//this needs to throw an exception.
+					throw new IllegalArgumentException("Too many numbers");
+				
+				} /*
+					 * else if (tempPNum.) {
+					 * 
+					 * }
+					 */
+		//checks if 11 digits the front is 1
+		//removes the leading 1
+			else if (tempPNum.length() == 11 && tempPNum.charAt(0) == '1') { 
+				tempPNum=tempPNum.substring(1);
+			}
+		//checks to make sure the number is valid with NXX-NXX-XXXX
+			if (tempPNum.charAt(0)<'2' || tempPNum.charAt(3) <'2') {
+				tempPNum = "Invalid33";
+			}
+		//else if
+		pNum = tempPNum;
+		return pNum;
 	}
 
 	/**
@@ -244,7 +307,15 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
+		Map<String,Integer> words = new HashMap<String, Integer>();
+		
+		String[] phrase = string.split("[., \n]");
+		//match
+		
+		//count
+		
+		
+		
 		return null;
 	}
 

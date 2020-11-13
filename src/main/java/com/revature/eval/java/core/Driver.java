@@ -12,6 +12,10 @@ public class Driver{
 		
 		int scramble = es.getScrabbleScore("ADD");
 		System.out.println(scramble);
+		
+		String number = "19009123451";
+		System.out.println( es.cleanPhoneNumber(number));
+	
 	}
 
 }
